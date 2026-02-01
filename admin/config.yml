@@ -1,22 +1,20 @@
-# Hubungkan ke Netlify Identity
 backend:
   name: git-gateway
   branch: main 
 
-# Folder tempat foto yang diupload klien akan disimpan
 media_folder: "public/images/uploads" 
 public_folder: "/images/uploads"
 
-# Tampilan halaman admin
-site_url: https://nama-web-kamu.netlify.app
+site_url: https://galery-web.netlify.app
 display_type: grid
 
 collections:
   - name: "produk"
     label: "Katalog Lukisan & Barang Antik"
-    folder: "content/produk" # Tempat file JSON disimpan
-    create: true # Memungkinkan klien menambah produk baru
-    slug: "{{slug}}" # Format nama file (misal: lukisan-kuno.json)
+    folder: "content/produk"
+    create: true
+    slug: "{{slug}}"
+    # extension dan format harus sejajar dengan folder
     extension: "json"
     format: "json"
     fields:
@@ -29,4 +27,4 @@ collections:
         name: "status"
         widget: "select"
         options: ["Tersedia", "Terjual"]
-        default: "Tersedia"
+        default: "Tersedia" # Hapus tanda koma di akhir ini
