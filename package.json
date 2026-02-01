@@ -1,0 +1,7 @@
+{
+  "name": "galeri-antik-web",
+  "version": "1.0.0",
+  "scripts": {
+    "build": "node scripts/build-data.js"
+  }
+}
