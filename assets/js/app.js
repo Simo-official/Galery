@@ -56,35 +56,36 @@ const showDetail = (item) => {
     const waLink = `https://wa.me/628123456789?text=Halo, saya tertarik dengan "${item.title}".`;
 
     const modalHTML = `
-        <div id="modal-detail" class="fixed inset-0 z-[100] flex items-center justify-center p-4 bg-black/95 backdrop-blur-md animate-fadeIn">
-            <div class="bg-stone-50 max-w-6xl w-full max-h-[95vh] overflow-hidden flex flex-col md:flex-row relative shadow-2xl">
-                <button onclick="document.getElementById('modal-detail').remove()" class="absolute top-4 right-4 z-[110] text-stone-800 text-4xl font-light">&times;</button>
+        <div id="modal-detail" class="fixed inset-0 z-[100] flex items-center justify-center p-0 md:p-4 bg-black/95 backdrop-blur-md animate-fadeIn">
+            <div class="bg-stone-50 w-full h-full md:max-w-7xl md:h-[90vh] overflow-hidden flex flex-col md:flex-row relative shadow-2xl">
                 
-                <div id="zoom-container" class="md:w-3/5 bg-stone-200 overflow-hidden relative flex items-center justify-center p-6 min-h-[400px]">
-                    <img id="zoom-image" src="${item.image}" class="max-w-full max-h-full object-contain shadow-2xl origin-center">
+                <button onclick="document.getElementById('modal-detail').remove()" class="absolute top-4 right-4 z-[120] bg-white/20 hover:bg-white/40 text-white md:text-stone-800 w-10 h-10 rounded-full flex items-center justify-center text-2xl transition-all">&times;</button>
+                
+                <div id="zoom-container" class="w-full h-1/2 md:h-full md:w-2/3 bg-stone-200 overflow-hidden relative flex items-center justify-center cursor-zoom-in">
+                    <img id="zoom-image" src="${item.image}" 
+                         class="w-full h-full object-cover md:object-contain transition-transform duration-300 ease-out">
                     
-                    <div class="absolute bottom-6 left-1/2 -translate-x-1/2 flex gap-3 z-[110]">
-                        <button id="btn-zoom-out" class="w-12 h-12 bg-white shadow-xl flex items-center justify-center rounded-full border hover:bg-black hover:text-white transition-all text-2xl">−</button>
-                        <button id="btn-zoom-in" class="w-12 h-12 bg-white shadow-xl flex items-center justify-center rounded-full border hover:bg-black hover:text-white transition-all text-2xl">+</button>
-                        <button id="btn-fs" class="w-12 h-12 bg-white shadow-xl flex items-center justify-center rounded-full border hover:bg-black hover:text-white transition-all text-sm">⛶</button>
+                    <div class="absolute bottom-6 right-6 flex flex-col gap-2 z-[110]">
+                        <button id="btn-zoom-in" class="w-12 h-12 bg-white/90 shadow-xl flex items-center justify-center rounded-full border hover:bg-black hover:text-white transition-all text-2xl">+</button>
+                        <button id="btn-zoom-out" class="w-12 h-12 bg-white/90 shadow-xl flex items-center justify-center rounded-full border hover:bg-black hover:text-white transition-all text-2xl">−</button>
                     </div>
                 </div>
                 
-                <div class="md:w-2/5 p-8 md:p-12 flex flex-col overflow-y-auto">
+                <div class="w-full h-1/2 md:h-full md:w-1/3 p-6 md:p-10 flex flex-col bg-white overflow-y-auto">
                     <span class="text-amber-800 tracking-widest text-[10px] uppercase mb-2 font-bold">${item.status}</span>
-                    <h2 class="text-4xl font-serif mb-4 text-stone-900">${item.title}</h2>
-                    <div class="prose prose-stone text-sm text-stone-600 mb-8 leading-relaxed">
-                        ${item.body ? item.body.replace(/\n/g, '<br>') : 'Tidak ada deskripsi.'}
+                    <h2 class="text-3xl md:text-4xl font-serif mb-4 text-stone-900 leading-tight">${item.title}</h2>
+                    
+                    <div class="prose prose-stone text-sm text-stone-600 mb-6 leading-relaxed flex-grow">
+                        ${item.body ? item.body.replace(/\n/g, '<br>') : 'Deskripsi karya tidak tersedia.'}
                     </div>
                     
-                    <div class="mt-auto space-y-4">
-                        <div class="flex justify-between items-end border-t pt-6">
+                    <div class="border-t pt-6 space-y-4">
+                        <div class="flex justify-between items-center">
                             <p class="text-2xl font-bold text-amber-900 font-serif">${item.price}</p>
-                            <a href="${waLink}" target="_blank" class="bg-stone-900 text-white px-6 py-3 text-xs uppercase tracking-widest hover:bg-amber-900 transition-all">Tanya Kurator</a>
+                            <a href="${waLink}" target="_blank" class="bg-stone-900 text-white px-6 py-3 text-[10px] uppercase tracking-widest hover:bg-amber-900 transition-all shadow-md">Tanya Kurator</a>
                         </div>
-                        
-                        <button id="btn-room-view" class="w-full border border-stone-900 py-3 text-[10px] uppercase tracking-[0.2em] hover:bg-stone-900 hover:text-white transition-all">
-                            Lihat di Ruangan (Room View)
+                        <button id="btn-room-view" class="w-full border border-stone-300 py-3 text-[10px] uppercase tracking-[0.2em] hover:bg-stone-50 transition-all text-stone-600">
+                            Lihat di Ruangan
                         </button>
                     </div>
                 </div>
