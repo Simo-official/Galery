@@ -1,3 +1,26 @@
+// assets/js/app.js
+const fetchKatalog = async () => {
+    const catalogContainer = document.getElementById('catalog');
+    if (!catalogContainer) return;
+
+    try {
+        // Panggil file hasil gabungan
+        const response = await fetch('/content/katalog-semua.json');
+        const products = await response.json();
+
+        if (products.length === 0) {
+            catalogContainer.innerHTML = '<p class="col-span-full text-center">Belum ada koleksi.</p>';
+            return;
+        }
+
+        catalogContainer.innerHTML = '';
+        products.forEach(item => renderCard(item));
+    } catch (error) {
+        console.error("Error:", error);
+        catalogContainer.innerHTML = '<p class="text-center">Gagal memuat katalog.</p>';
+    }
+};
+
 // 1. Fungsi Render Kartu di Halaman Utama
 const renderCard = (item) => {
     const catalogContainer = document.getElementById('catalog');
@@ -109,3 +132,4 @@ style.textContent = `
     body.modal-open { overflow: hidden; }
 `;
 document.head.appendChild(style);
+document.addEventListener('DOMContentLoaded', fetchKatalog);
