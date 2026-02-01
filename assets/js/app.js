@@ -63,6 +63,7 @@ const showDetail = (item) => {
                     <img id="zoom-image" src="${item.image}" class="w-full h-full object-contain transition-transform duration-300 ease-out origin-center">
                     
                     <div class="absolute bottom-6 right-6 flex flex-col gap-2 z-[110]">
+                        <button id="btn-fs" class="w-12 h-12 bg-white/90 shadow-xl flex items-center justify-center rounded-full border hover:bg-black hover:text-white transition-all text-sm">⛶</button>
                         <button id="btn-zoom-in" class="w-12 h-12 bg-white/90 shadow-xl flex items-center justify-center rounded-full border hover:bg-black hover:text-white transition-all text-2xl">+</button>
                         <button id="btn-zoom-out" class="w-12 h-12 bg-white/90 shadow-xl flex items-center justify-center rounded-full border hover:bg-black hover:text-white transition-all text-2xl">−</button>
                     </div>
@@ -108,6 +109,19 @@ const showDetail = (item) => {
             const x = ((e.clientX - left) / width) * 100;
             const y = ((e.clientY - top) / height) * 100;
             img.style.transformOrigin = `${x}% ${y}%`;
+        }
+    };
+
+    // Logika Fullscreen
+    const btnFs = document.getElementById('btn-fs');
+    btnFs.onclick = (e) => {
+        e.stopPropagation();
+        if (!document.fullscreenElement) {
+            zCont.requestFullscreen().catch(err => {
+                alert(`Error: ${err.message}`);
+            });
+        } else {
+            document.exitFullscreen();
         }
     };
 
