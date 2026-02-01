@@ -109,4 +109,3 @@ style.textContent = `
     body.modal-open { overflow: hidden; }
 `;
 document.head.appendChild(style);
-document.addEventListener('DOMContentLoaded', fetchKatalog);
