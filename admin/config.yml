@@ -3,7 +3,7 @@ backend:
   branch: main 
 
 media_folder: "public/images/uploads" 
-public_folder: "/images/uploads"
+public_folder: "/public/images/uploads"
 
 site_url: https://galery-web.netlify.app
 display_type: grid
