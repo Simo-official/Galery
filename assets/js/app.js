@@ -54,29 +54,44 @@ const fetchKatalog = async () => {
     }
 };
 
-// 3. Render Card (Halaman Utama)
 const renderCard = (item) => {
     const catalogContainer = document.getElementById('catalog');
     const isSold = item.status === "Terjual";
+    
+    // Potong deskripsi untuk tampilan singkat (hover)
+    const shortDesc = item.body ? item.body.substring(0, 100) + '...' : '';
+
     const card = document.createElement('div');
-    card.className = "group cursor-none flex flex-col mb-10";
+    // Kursor kembali jadi default (pointer)
+    card.className = "group cursor-pointer flex flex-col mb-10 relative";
     card.innerHTML = `
         <div class="relative aspect-[4/5] bg-stone-100 overflow-hidden flex items-center justify-center">
-            <img src="${item.image}" class="w-full h-full object-contain p-4 ${isSold ? 'grayscale' : ''}">
-            <div class="custom-cursor fixed pointer-events-none opacity-0 group-hover:opacity-100 z-[60] bg-black text-white text-[10px] px-3 py-1.5 rounded-full tracking-widest uppercase font-bold mix-blend-difference">VIEW</div>
+            <img src="${item.image}" alt="${item.title}" 
+                 class="w-full h-full object-contain p-4 transition-opacity duration-300 group-hover:opacity-90 ${isSold ? 'grayscale' : ''}">
+            
+            <div class="absolute bottom-4 right-4 opacity-0 group-hover:opacity-100 transition-all duration-300 transform translate-y-2 group-hover:translate-y-0 z-10">
+                <span class="bg-black/80 backdrop-blur-sm text-white text-[10px] px-3 py-1.5 rounded-sm tracking-widest uppercase font-bold shadow-lg">
+                    View
+                </span>
+            </div>
+
+            ${isSold ? '<span class="absolute top-3 right-3 bg-black/80 text-white px-2 py-1 text-[10px] font-bold uppercase tracking-widest">Terjual</span>' : ''}
         </div>
-        <div class="mt-4">
-            <h3 class="text-lg font-serif">${item.title}</h3>
-            <p class="text-amber-900 font-bold mt-1">${item.price}</p>
+
+        <div class="mt-4 flex flex-col flex-grow">
+            <h3 class="text-lg font-serif text-stone-900 leading-tight">${item.title}</h3>
+            
+            <div class="max-h-0 overflow-hidden transition-all duration-500 ease-in-out group-hover:max-h-24">
+                <p class="text-stone-500 text-sm italic mt-2 leading-relaxed">${shortDesc}</p>
+            </div>
+
+            <div class="mt-auto pt-3 flex justify-between items-center">
+                <span class="font-bold text-amber-900">${item.price}</span>
+                <span class="text-[10px] border-b border-stone-300 pb-1 uppercase tracking-widest text-stone-400 group-hover:text-amber-800 group-hover:border-amber-800 transition-colors">Lihat Detail</span>
+            </div>
         </div>
     `;
 
-    const cursor = card.querySelector('.custom-cursor');
-    card.onmousemove = (e) => {
-        cursor.style.left = e.clientX + 'px';
-        cursor.style.top = e.clientY + 'px';
-        cursor.style.transform = 'translate(-50%, -50%)';
-    };
     card.onclick = () => showDetail(item);
     catalogContainer.appendChild(card);
 };
