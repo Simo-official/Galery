@@ -9,16 +9,49 @@ style.textContent = `
 `;
 document.head.appendChild(style);
 
-// 2. Fetch Data
 const fetchKatalog = async () => {
     const catalogContainer = document.getElementById('catalog');
     if (!catalogContainer) return;
+
+    // 1. Tampilkan Loading Spinner (Animasi Putar)
+    catalogContainer.innerHTML = `
+        <div class="col-span-full flex flex-col items-center justify-center py-32 animate-fadeIn">
+            <div class="w-8 h-8 border-2 border-stone-200 border-t-amber-900 rounded-full animate-spin"></div>
+            <p class="mt-6 text-[10px] text-stone-400 uppercase tracking-[0.3em] font-medium">Menata Galeri...</p>
+        </div>
+    `;
+
     try {
-        const response = await fetch('/content/katalog-semua.json');
+        // 2. Fetch data dengan Cache Buster (?t=...) agar selalu fresh
+        const response = await fetch('/content/katalog-semua.json?t=' + Date.now());
+        
+        if (!response.ok) throw new Error("Gagal mengambil data");
+        
         const products = await response.json();
-        catalogContainer.innerHTML = '';
-        products.forEach(item => renderCard(item));
-    } catch (error) { console.error("Error:", error); }
+
+        // Jeda sedikit agar transisi loading ke konten tidak terlalu "kaget"
+        setTimeout(() => {
+            if (products.length === 0) {
+                catalogContainer.innerHTML = `
+                    <p class="col-span-full text-center py-20 text-stone-400 italic font-serif">
+                        Belum ada koleksi yang dipajang.
+                    </p>`;
+                return;
+            }
+
+            catalogContainer.innerHTML = '';
+            products.forEach(item => renderCard(item));
+        }, 500); // Delay 500ms agar animasi spinner terlihat halus
+
+    } catch (error) {
+        console.error("Error:", error);
+        catalogContainer.innerHTML = `
+            <div class="col-span-full text-center py-20">
+                <p class="text-stone-500 font-serif">Koneksi ke galeri terputus.</p>
+                <button onclick="fetchKatalog()" class="mt-4 text-[10px] uppercase tracking-widest border-b border-stone-400 pb-1 hover:text-amber-900 hover:border-amber-900">Coba Lagi</button>
+            </div>
+        `;
+    }
 };
 
 // 3. Render Card (Halaman Utama)
@@ -51,7 +84,7 @@ const renderCard = (item) => {
 // 4. Modal Detail (Zoom & Room View Fixed)
 const showDetail = (item) => {
     let currentZoom = 1;
-    const waLink = `https://wa.me/628123456789?text=Halo, saya tertarik dengan "${item.title}".`;
+    const waLink = `https://wa.me/628520719373?text=Halo, saya tertarik dengan "${item.title}".`;
 
     const modalHTML = `
         <div id="modal-detail" class="fixed inset-0 z-[100] flex items-center justify-center p-0 md:p-4 bg-black/95 backdrop-blur-md animate-fadeIn">
